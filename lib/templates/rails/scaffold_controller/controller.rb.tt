@@ -1,0 +1,53 @@
+# frozen_string_literal: true
+
+class <%= class_name.pluralize %>Controller < <%= class_name.split('::').count > 1 ? class_name.split('::').first + '::BaseController' : 'ApplicationController' %>
+  before_action :set_<%= singular_name %>, only: [:show, :edit, :update, :destroy]
+
+  def index
+    @<%= singular_name.pluralize %> = <%= class_name.capitalize %>.all
+  end
+
+  def show
+  end
+
+  def new
+    @<%= singular_name %> = <%= class_name %>.new
+  end
+
+  def create
+    @<%= singular_name %> = <%= class_name.capitalize %>.new(<%= singular_name %>_params)
+
+    if @<%= singular_name %>.save
+      redirect_to @<%= singular_name %>, notice: '<%= human_name %> was successfully created.'
+    else
+      render :new
+    end
+  end
+
+  def edit
+  end
+
+  def update
+    if @<%= singular_name %>.update(<%= singular_name %>_params)
+      redirect_to @<%= singular_name %>, notice: '<%= human_name %> was successfully updated.'
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @<%= singular_name %>.destroy
+    redirect_to <%= plural_name %>_url, notice: '<%= human_name %> was successfully destroyed.'
+  end
+
+  private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_<%= singular_name %>
+    @<%= singular_name %> = <%= class_name.capitalize %>.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def <%= singular_name %>_params
+    params.require(:<%= singular_name %>).permit(<%= attributes_names.map { |name| ":#{name}" }.join(', ') %>)
+  end
+end
