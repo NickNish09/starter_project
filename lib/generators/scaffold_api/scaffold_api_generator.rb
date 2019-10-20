@@ -17,8 +17,8 @@ class ScaffoldApiGenerator < Rails::Generators::NamedBase
     template "api.rb.tt", generator_path
   end
 
-  hook_for :resource_route, in: :rails do |resource_route|
-    invoke resource_route, ["v1/#{file_name.pluralize}"]
+  def update_routes
+    invoke :resource_route, ["v1/#{file_name.pluralize}"]
   end
 
 end
