@@ -2,9 +2,48 @@
 
 module V1
   class <%= class_name.pluralize %>Controller < <%= class_name.split('::').count > 1 ? class_name.split('::').first + '::BaseController' : 'ApiController' %>
+    before_action :set_<%= singular_name %>, only: [:show, :edit, :update, :destroy]
     def index
       @<%= singular_name.pluralize %> = <%= class_name.singularize %>.all
       render json: @<%= singular_name.pluralize %>
+    end
+
+    def show
+      render json: @<%= singular_name %>
+    end
+
+    def create
+      @<%= singular_name %> = <%= class_name.capitalize %>.new(<%= singular_name %>_params)
+
+      if @<%= singular_name %>.save
+        render json: @<%= singular_name %>
+      else
+        render json: { error: 'Error creating <%= singular_name %>' }, status: :unprocessable_entity
+      end
+    end
+
+    def update
+      if @<%= singular_name %>.update(<%= singular_name %>_params)
+        render json: @<%= singular_name %>
+      else
+        render json: { error: 'Error updating <%= singular_name %>' }, status: :unprocessable_entity
+      end
+    end
+
+    def destroy
+      @<%= singular_name %>.destroy
+      render json: { error: 'Destroyed <%= singular_name %>' }, status: :ok
+    end
+
+    private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_<%= singular_name %>
+      @<%= singular_name %> = <%= class_name.capitalize %>.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def <%= singular_name %>_params
+      params.require(:<%= singular_name %>).permit(<%= attributes_names.map { |name| ":#{name}" }.join(', ') %>)
     end
   end
 end
