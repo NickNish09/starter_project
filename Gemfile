@@ -29,6 +29,8 @@ gem 'rails_admin_rollincode', '~> 1.0'
 gem 'rails_admin_material'
 gem 'rails_admin', '~> 2.0'
 
+gem 'devise'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
