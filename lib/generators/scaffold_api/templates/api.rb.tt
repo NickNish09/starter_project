@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
-class <%= class_name.pluralize %>Controller < <%= class_name.split('::').count > 1 ? class_name.split('::').first + '::BaseController' : 'ApplicationController' %>
-
+module V1
+  class <%= class_name.pluralize %>Controller < <%= class_name.split('::').count > 1 ? class_name.split('::').first + '::BaseController' : 'ApiController' %>
+    def index
+      @<%= singular_name.pluralize %> = <%= class_name.singularize %>.all
+      render json: @<%= singular_name.pluralize %>
+    end
+  end
 end
