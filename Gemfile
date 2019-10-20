@@ -26,6 +26,7 @@ gem 'jbuilder', '~> 2.7'
 # gem 'image_processing', '~> 1.2'
 
 gem 'rails_admin_rollincode', '~> 1.0'
+gem 'rails_admin_material'
 gem 'rails_admin', '~> 2.0'
 
 # Reduces boot times through caching; required in config/boot.rb
